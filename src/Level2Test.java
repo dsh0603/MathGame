@@ -19,7 +19,7 @@ import java.awt.event.ActionEvent;
 public class Level2Test {
 
 	private JFrame frame;
-	
+	private int fake = 0;
 	private int total = 0;
 	private int fails = 0;
 	
