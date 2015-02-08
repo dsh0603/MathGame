@@ -19,6 +19,7 @@ import java.awt.event.ActionEvent;
 public class Level1Test extends Level2Test {
 	private int total = 0;
 	private int fails = 0;
+	private int butt = 1;
 	
 	private boolean button1Clicked = false;
 	private boolean button2Clicked = false;
