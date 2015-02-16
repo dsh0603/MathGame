@@ -4,22 +4,50 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
+
 import java.awt.Color;
+
 import javax.swing.JTextPane;
 import javax.swing.JTextField;
 import javax.swing.DropMode;
 import javax.swing.SwingConstants;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.sql.*;
 
+import javax.swing.*;
 
 public class Level1Test extends Level2Test {
 	private int total = 0;
 	private int fails = 0;
-	private int butt = 1;
+	public int lid,npc1, npc2, npc3, npc4;
+	Connection connection=sqliteConnection.dbConnector();
+	{
+	try{		
+		String query="select * from Level1 where LID = (abs(random()) % (select max(LID)+1 from Level1))";
+		PreparedStatement pst=connection.prepareStatement(query);
+		ResultSet rs=pst.executeQuery();
+		lid = rs.getInt("LID");
+		npc1 = rs.getInt("NPC1");
+		npc2 = rs.getInt("NPC2");
+		npc3 = rs.getInt("NPC3");
+		npc4 = rs.getInt("NPC4");
+		System.out.println(npc1 + " " + npc2 + " " + npc3 +" " + npc4);
+		rs.close();
+		pst.close();
+		
+	}catch(Exception e)
+	{
+		JOptionPane.showMessageDialog(null, e);
+	}
+	}
+	
+	
 	
 	private boolean button1Clicked = false;
 	private boolean button2Clicked = false;
@@ -66,7 +94,7 @@ public class Level1Test extends Level2Test {
 		frame.getContentPane().setLayout(null);
 		
 		txtpnGiveMe.setEditable(false);
-		txtpnGiveMe.setText("Give me 10 coins to pass through to the mountains");
+		txtpnGiveMe.setText("Give me " + npc4 + " coins to pass through to the mountains");
 		txtpnGiveMe.setBounds(532, 234, 101, 70);
 		frame.getContentPane().add(txtpnGiveMe);
 		
@@ -79,7 +107,7 @@ public class Level1Test extends Level2Test {
 				button3Clicked = false;
 				equation = "0";
 				totalLabel.setText(equation);
-				txtpnGiveMe.setText("Give me 10 coins to pass through to the mountains");
+				txtpnGiveMe.setText("Give me " + npc4 + " coins to pass through to the mountains");
 				
 				fails ++;
 			}
@@ -104,7 +132,7 @@ public class Level1Test extends Level2Test {
 		JButton btnNewButton = new JButton("Give");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int finalVal = 10;
+				int finalVal = npc4;
 				equation = equation + " = " + total;
 				if(total == finalVal){
 					totalLabel.setText(equation);
@@ -131,19 +159,19 @@ public class Level1Test extends Level2Test {
 		frame.getContentPane().add(btnNewButton);
 		
 		JLabel gateKepperLabel = new JLabel("");
-		gateKepperLabel.setIcon(new ImageIcon("/Users/simplymac/Desktop/Spring 2015/Software Eng./MathGame/images/King-icon.png"));
+		gateKepperLabel.setIcon(new ImageIcon("/home/darrell/workspace/git/MathGame/images/King-icon.png"));
 		gateKepperLabel.setBounds(482, 260, 75, 70);
 		frame.getContentPane().add(gateKepperLabel);
 		
 		JLabel takeLabel1 = new JLabel("");
-		takeLabel1.setIcon(new ImageIcon("/Users/simplymac/Desktop/Spring 2015/Software Eng./MathGame/images/Leprechaun-icon.png"));
+		takeLabel1.setIcon(new ImageIcon("/home/darrell/workspace/git/MathGame/images/Leprechaun-icon.png"));
 		takeLabel1.setBounds(118, 270, 48, 70);
 		frame.getContentPane().add(takeLabel1);
 		
 		JButton takeButton1 = new JButton("take");
 		takeButton1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int coinVal6 = 6;
+				int coinVal6 = npc1;
 				if(button1Clicked == false){
 					total = total + coinVal6;
 					button1Clicked = true;
@@ -158,14 +186,14 @@ public class Level1Test extends Level2Test {
 		frame.getContentPane().add(takeButton1);
 		
 		JLabel takeButton2 = new JLabel("");
-		takeButton2.setIcon(new ImageIcon("/Users/simplymac/Desktop/Spring 2015/Software Eng./MathGame/images/Man-icon.png"));
+		takeButton2.setIcon(new ImageIcon("/home/darrell/workspace/git/MathGame/images/Man-icon.png"));
 		takeButton2.setBounds(286, 260, 48, 70);
 		frame.getContentPane().add(takeButton2);
 		
 		JButton btnNewButton_1 = new JButton("take");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int coinVal = 5;
+				int coinVal = npc2;
 				if(button2Clicked == false){
 					total = total + coinVal;
 					button2Clicked = true;
@@ -180,14 +208,14 @@ public class Level1Test extends Level2Test {
 		frame.getContentPane().add(btnNewButton_1);
 		
 		JLabel takeLabel3 = new JLabel("");
-		takeLabel3.setIcon(new ImageIcon("/Users/simplymac/Desktop/Spring 2015/Software Eng./MathGame/images/Teacher-icon.png"));
+		takeLabel3.setIcon(new ImageIcon("/home/darrell/workspace/git/MathGame/images/Teacher-icon.png"));
 		takeLabel3.setBounds(348, 175, 48, 58);
 		frame.getContentPane().add(takeLabel3);
 		
 		JButton takeButton3 = new JButton("take");
 		takeButton3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int coinVal = 4;
+				int coinVal = npc3;
 				if(button3Clicked == false){
 					total = total + coinVal;
 					button3Clicked = true;
@@ -206,7 +234,7 @@ public class Level1Test extends Level2Test {
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JLabel coinsLabel4 = new JLabel("I'll give you 4 coins");
+		JLabel coinsLabel4 = new JLabel("I'll give you " + npc3 + " coins");
 		coinsLabel4.setHorizontalAlignment(SwingConstants.CENTER);
 		coinsLabel4.setBounds(0, 0, 129, 16);
 		panel.add(coinsLabel4);
@@ -217,7 +245,7 @@ public class Level1Test extends Level2Test {
 		frame.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		
-		JLabel coinsLabel5 = new JLabel("Take these 5 coins");
+		JLabel coinsLabel5 = new JLabel("Take these " + npc2 + " coins");
 		coinsLabel5.setBounds(0, 0, 129, 16);
 		panel_1.add(coinsLabel5);
 		coinsLabel5.setHorizontalAlignment(SwingConstants.CENTER);
@@ -227,13 +255,13 @@ public class Level1Test extends Level2Test {
 		frame.getContentPane().add(panel_2);
 		panel_2.setLayout(null);
 		
-		JLabel coinsLabel6 = new JLabel("I'll pitch in 6 coins");
+		JLabel coinsLabel6 = new JLabel("I'll pitch in " + npc1 + " coins");
 		coinsLabel6.setBounds(0, 0, 129, 16);
 		panel_2.add(coinsLabel6);
 		coinsLabel6.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JLabel backGroundLabel = new JLabel("");
-		backGroundLabel.setIcon(new ImageIcon("/Users/simplymac/Desktop/Spring 2015/Software Eng./MathGame/images/backgroundl1.jpg"));
+		backGroundLabel.setIcon(new ImageIcon("/home/darrell/workspace/git/MathGame/images/backgroundl1.jpg"));
 		backGroundLabel.setBounds(0, 0, 641, 468);
 		frame.getContentPane().add(backGroundLabel);
 		
